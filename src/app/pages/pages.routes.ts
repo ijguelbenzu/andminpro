@@ -6,6 +6,7 @@ import { Graficas1Component } from './graficas1/graficas1.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from "./rxjs/RxjsComponent";
+import { LoginGuardGuard } from '../services/service.index';
 
 
 
@@ -13,6 +14,7 @@ const pagesRoutes: Routes = [
   {
     path: '',
     component: PagesComponent,
+    canActivate: [ LoginGuardGuard ],
     children: [
       // data es un componente opcionar de las rutas,
       // es un objeto y se puede usar para varias cosas
