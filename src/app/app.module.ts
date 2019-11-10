@@ -18,6 +18,7 @@ import { ServiceModule } from './services/service.module';
 // Modulos
 import { PagesModule } from './pages/pages.module';
 
+
 @NgModule({
   declarations: [
     AppComponent,
