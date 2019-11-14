@@ -61,8 +61,8 @@ export class LoginComponent implements OnInit {
 
       //console.log(token);
       this._usuarioService.loginGoogle ( token )
-      .subscribe(() => this.router.navigate([ '/dashboard' ]) );
-      //.subscribe(()  => window.location.href = '#/dashboard' ); // si falla la de arriba.
+      //.subscribe(() => this.router.navigate([ '/dashboard' ]) );
+      .subscribe(()  => window.location.href = '#/dashboard' ); // si falla la de arriba.
   });
 }
 
@@ -73,6 +73,7 @@ export class LoginComponent implements OnInit {
     let usuario = new Usuario(null, forma.value.email, forma.value.password );
 
     this._usuarioService.login( usuario, forma.value.recuerdame )
-      .subscribe(() => this.router.navigate([ '/dashboard' ]) );
+//      .subscribe(() => this.router.navigate([ '/dashboard' ]) );
+      .subscribe(()  => window.location.href = '#/dashboard' ); // si falla la de arriba.
   }
 }

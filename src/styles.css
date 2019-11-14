@@ -32,3 +32,7 @@
     height: 100%;
     z-index: 9999;
 }
+
+.pill {
+    border-radius: 16px;
+  }
