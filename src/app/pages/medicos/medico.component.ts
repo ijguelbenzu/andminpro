@@ -31,7 +31,7 @@ export class MedicoComponent implements OnInit {
       if (id !== 'nuevo') {
         this.cargarMedico( id );
       }
-    })
+    });
    }
 
   ngOnInit() {
@@ -40,6 +40,7 @@ export class MedicoComponent implements OnInit {
     .subscribe((resp: any) => {
       //console.log( resp );
       this.hospitales = resp.hospitales;
+    });
 
       this._modalUploadService.notificacion
       .subscribe(resp => {
@@ -47,7 +48,6 @@ export class MedicoComponent implements OnInit {
           this.medico.img = resp.medico.img;
       });
 
-    });
  }
 
 guardarMedico(f: NgForm ) {
@@ -75,7 +75,7 @@ guardarMedico(f: NgForm ) {
     this._hospitalService.obtenerHospital( id )
       .subscribe( hospital => {
         this.hospital = hospital; 
-        this.medico.hospital = hospital._id;
+        // this.medico.hospital = hospital._id;
         // console.log( this.hospital );
         // console.log( this.medico.hospital );
       });
@@ -85,9 +85,10 @@ guardarMedico(f: NgForm ) {
   cargarMedico( id: string ) {
     this._medicoService.obtenerMedico( id )
       .subscribe( medico => {
+        console.log( medico );
         this.medico = medico,
         this.medico.hospital = medico.hospital._id,
-        this.hospital = medico.hospital
+//        this.hospital = medico.hospital
         this.cambioHospital( this.medico.hospital );
        } );
   }
