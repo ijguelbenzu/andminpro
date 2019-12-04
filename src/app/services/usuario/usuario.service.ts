@@ -184,8 +184,30 @@ export class UsuarioService {
         swal('Usuario borrado', 'El usuario ha sido eliminado correctamente', 'success');
         return true;
         //resp.usuarios 
-      }
-      ));
+      }));
   }
+
+  renuevaToken() {
+
+    let url = URL_SERVICIOS + '/login/renuevatoken';
+    url += "?token=" + this.token;
+
+    return this.http.get(url)
+      .pipe(map((resp: any) => {
+        this.token = resp.token;
+        localStorage.setItem('token', this.token);
+        console.log('Token renovado');
+        return true;
+
+      }),
+      catchError( err => {
+        //console.log(err.status);
+        //console.log(err.error.mensaje);
+        this.router.navigate(['/login']);
+        swal('No se pudo renovar el token', 'No fue posible renovar el token' , 'error');
+        return throwError(err.message);
+      }));
+  }
+
 
 }

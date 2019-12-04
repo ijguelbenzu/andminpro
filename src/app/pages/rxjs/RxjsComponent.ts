@@ -14,8 +14,12 @@
 // la subscripcion, así en el destroy podemos hacer referencia
 // a la subscripción para cortarla.
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subscriber, Subscription } from 'rxjs';
-import { retry, map, filter } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { map, filter, retry } from "rxjs/operators";
+// import { Observable } from 'rxjs/Observable';
+// import { Subscriber } from 'rxjs/Subscriber';
+// import { Subscription } from 'rxjs/Subscription';
+//import { retry, map, filter } from 'rxjs/operators';
 // filter nos va a servir, en la función
 // para poder elegir los datos que enviamos
 // (en este caso los numeros impares)
@@ -31,15 +35,6 @@ export class RxjsComponent implements OnInit, OnDestroy {
 
   subscripcion: Subscription;
 
-  ngOnInit(): void {
-
-   }
-
-   ngOnDestroy() {
-     console.log('La pagina se va a cerrar');
-     this.subscripcion.unsubscribe();
-
-   }
   constructor() {
     this.subscripcion = this.regresaObservable()
     .subscribe(
@@ -57,16 +52,24 @@ export class RxjsComponent implements OnInit, OnDestroy {
     );
   }
 
+  ngOnInit(): void {
+   }
+
+   ngOnDestroy() {
+     console.log('La pagina se va a cerrar');
+     this.subscripcion.unsubscribe();
+   }
+
     regresaObservable(): Observable<any> {
       // Esto podría ser let obs = new ...
       // y después return obs; pero como es todo una
       // instrucción, se puede dejas asi.
-      return new Observable((observer: Subscriber<any>) => {
+      return new Observable( observer => {
         let contador = 0;
-        const intervalo = setInterval(() => {
+        let intervalo = setInterval( () => {
           contador += 1;
 
-          const salida = {
+          let salida = {
             valor: contador
           }
 
@@ -89,15 +92,17 @@ export class RxjsComponent implements OnInit, OnDestroy {
           //   observer.error('¡Auxilio!');
           // }
           }, 1000);
-      }).pipe(
+      })
+     .pipe(retry(2),
         // map nos permite convertir un objeto que llega de una api
         // no creada por nosotros en los valores que nos interesan.
         // La funcion de flecha permite sustituir { return resp.valor }
         // por lo que ha quedado
-        map( resp => resp.valor ),
-        filter(  ( valor, index ) => {
+        map( (resp: any) => {
           //console.log('Filter ', valor, index);
-
+          return resp.valor;
+        } ),
+        filter( (valor, index) => {
           if ( (valor % 2) === 1 ) {
             // Es un numero impar
             return true;
@@ -105,8 +110,7 @@ export class RxjsComponent implements OnInit, OnDestroy {
             // Es un numero par
             return false;
           }
-        } ),
-      )
+}));
 
     }
 }
